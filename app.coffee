@@ -1,5 +1,5 @@
-unless process.env.SENDGRID_USERNAME and process.env.SENDGRID_PASSWORD and process.env.KEY
-	console.error "This application require Sendgrid and KEY set"
+unless process.env.SENDGRID_USERNAME and process.env.SENDGRID_PASSWORD and process.env.KEY and process.env.FROM
+	console.error "This application require Sendgrid account and KEY, FROM env vars set"
 	process.exit 1
 
 KEY = process.env.KEY
@@ -14,7 +14,7 @@ mailTransport = nodemailer.createTransport "SMTP",
 
 sendMail = (to, html, callback) ->
 	mailTransport.sendMail
-		# from: "email-send-test-app <no-reply@non-existent.com>"
+		from: process.env.FROM
 		to: to
 		subject: "email-send-test-app test letter"
 		html: html
